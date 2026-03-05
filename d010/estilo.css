@@ -1,0 +1,224 @@
+@charset 'UTF-8';
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+@font-face {
+    font-family: 'Iodroid';
+    src: url(material-apoio/fontes/idroid.otf) format(opentype);
+}
+
+/* Cores principais:
+Verde escuro - #175B36
+Verde intermediário - #24824E
+Verde claro - #39CB7A
+*/
+
+:root { /* Declarar variáveis em CSS */
+    --verde-e: #175B36;
+    --verde-i: #24824E;
+    --verde-c: #39CB7A;
+    --fonte-padrao: Arial, Verdana, Helvetica, sans-serif;
+    --fonte-titulo: 'Bebas Neue';
+    --fonte-android: 'Iodroid';
+}
+
+body {
+    background-color: #39cb7bac;
+}
+
+header {
+    background-image: linear-gradient(to bottom, var(--verde-c), var(--verde-i) 60%, var(--verde-e) /* Utilizar as variáveis declaradas: 'var(--)' */);
+    padding: 10px;
+    margin-top: -10px;
+    margin-left: -8px;
+    margin-right: -8px;
+    color: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.418);
+}
+
+header > h1 {
+    font-family: var(--fonte-titulo);
+    font-weight: bold;
+    font-size: 2.5em;
+    color: rgb(255, 255, 255);
+    margin-bottom: 0px;
+    text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.491);
+}
+
+header > p {
+    color: rgb(255, 255, 255);
+    font-family: Arial, Helvetica, sans-serif;
+    max-width: 450px;
+    margin: auto;
+    margin-bottom: 40px;
+    text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.486);
+}
+
+.centro {
+    text-align: center;
+}
+
+nav > a {
+    color: white;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 1em;
+    padding: 10px;
+    transition-duration: 0.25s; /* Forma de atrasar possíveis alterações feitas por pseudo-elementos (como o hover). Nesse caso causa um tipo de animação de fade, pela troca de cor de fundo */
+}
+
+nav > a:hover {
+    background-color: var(--verde-c);
+    color: var(--verde-e);
+    border-radius: 5px;
+}
+
+main {
+    max-width: 850px;
+    min-width: 300px;
+    background-color: white;
+    padding: 15px;
+    margin: auto;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    box-shadow: 4px 4px 3px rgba(0, 0, 0, 0.445);
+}
+
+span > a {
+    text-decoration: none;
+    color: var(--verde-i);
+}
+
+section > h1 {
+    font-family: var(--fonte-android);
+    color: #175B36;
+    font-size: 1.5em;
+}
+
+div > h2 {
+    font-family: 'Iodroid';
+    color: #175B36;
+    font-size: 1.2em;
+    background-image: linear-gradient(to right, #39cb7b51, white);
+    padding-left: 6px;
+}
+
+section p { /* Se o sinal '>' for omitido, significa que a relação pai e filho pode ser de qualqer nível,não importando se existem mais tags entre eles, ou seja, no caso a configuração serve para qualquer 'p' que estiver dentro de uma 'section' */
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1em;
+    text-align: justify;
+    text-indent: 30px;
+    line-height: 2em; /* Espaço entre linhas */
+}
+
+.destaque {
+    color: #24824E;
+    font-weight: bold;
+}
+
+.link {
+    color: var(--verde-e);
+    font-weight: bold;
+}
+
+.link::after {
+    content: ' 🔗';
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+div.video {
+    background-color: #175B36;
+    margin: 0px -15px 0 -15px;
+    padding: 20px;
+    padding-bottom: 56%;
+    position: relative;
+}
+
+div.video > iframe {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    width: 90%;
+    height: 90%;
+}
+
+main h3 {
+    margin: 0px;
+    background-color: var(--verde-i);
+    padding: 15px;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    margin-top: -10px;
+    margin-left: -10px;
+    margin-right: -10px;
+    /* Configuração do 'margin' pode ser simplificado: margin: -10px -10px 0 -10px; */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-shadow: 2px 2px 2px black;
+}
+
+div > section {
+    background-color: #39cb7b5b;
+    padding: 10px;
+    margin-top: 15px;
+    border-radius: 10px;
+    box-shadow: 4px 4px 3px rgba(0, 0, 0, 0.445);
+}
+
+p#primeira-coluna {
+    display: inline-block;
+    margin-right: 200px;
+    margin-bottom: 0px;
+}
+
+.verificado::before {
+    content: '✔️ '
+}
+
+p#segunda-coluna {
+    display: inline-block;
+    margin-top: 0px;
+}
+
+footer {
+    text-align: center;
+    background-color: #175B36;
+    padding: 5px;
+    margin-top: 15px;
+    margin-bottom: -10px;
+    margin-right: -8px;
+    margin-left: -8px;
+}
+
+footer > p {
+    margin: 5px;
+    color: rgb(201, 201, 201);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.9em;
+    font-style: italic;
+}
+
+.destaque-2 {
+    font-weight: bold;
+    color: white;
+}
+
+img {
+    width: 100%; /* Faz com que as imagens se apadtem a ocupar sempre 100% da largura da tag em que estão inseridas, centralizando-se automaticamente e tornando o site reponsivo pra diferentes tipo de tela */
+}
+
+img#bugdroid {
+    max-width: 300px;
+    display: block;
+    margin: auto;
+    /* Necessário definir o 'display' como 'block', além do 'margin: auto' para centralizar imagens, porque elas são, por padrão, caixas inline-block */
+}
+
+abbr {
+    text-decoration: underline;
+}

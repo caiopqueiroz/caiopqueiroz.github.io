@@ -73,19 +73,20 @@ main section.normal {
 main section.imagem { /* Seção onde estarão expostas as imagens (parte de fora, mais ampla) */
     color: white;
     box-shadow: inset 6px 6px 13px 0px rgba(0, 0, 0, 0.388);
-    background-size: cover;
 }
 
 main section#joaninha {
     background-image: url(../imagens/background001.jpg);
     background-position: center center;
     background-attachment: fixed;
+    background-size: cover;
 }
 
 main section#papel {
     background-image: url(../imagens/background002.jpg);
     background-position: center center;
     background-attachment: fixed;
+    background-size: cover;
 }
 
 main section.imagem p { /* Parágrafo do texto em si (parte de dentro) */

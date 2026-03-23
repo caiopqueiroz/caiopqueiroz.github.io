@@ -70,14 +70,14 @@ main section.imagem { /* Seção onde estarão expostas as imagens (parte de for
 }
 
 main section#joaninha {
-    background-image: url(../fotos/p1.jpeg);
+    background-color: rgb(164, 0, 0);
     background-position: center center;
     background-attachment: fixed;
     background-size: cover;
 }
 
 main section#papel {
-    background-image: url(../fotos/p2.jpeg);
+    background-color: rgb(164, 0, 0);
     background-position: center center;
     background-attachment: fixed;
     background-size: cover;
@@ -92,7 +92,7 @@ main section.imagem p { /* Parágrafo do texto em si (parte de dentro) */
 }
 
 img {
-    width: 80vh;
+    width: 50vh;
     margin: auto;
     display: block;
     margin-bottom: 10vh;

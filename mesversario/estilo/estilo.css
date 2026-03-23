@@ -1,0 +1,119 @@
+@charset 'UTF-8';
+
+@import url('https://fonts.googleapis.com/css2?family=Sriracha&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Passion+One:wght@400;700;900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Shantell+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Italianno&display=swap');
+
+:root {
+    --fonte1: Verdana, Geneva, Tahoma, sans-serif;
+    --fonte2: 'Passion One', cursive;
+    --fonte3: 'Sriracha', cursive;
+    --fonte4: 'Shantell Sans';
+    --fonte5: 'Italianno'
+}
+
+* { /* '*' signica fazer uma alteração nas configurações gerais do projeto */
+    margin: 0px;
+    padding: 0px;
+    font-size: 1em;
+}
+
+html, body {
+    background-color: white;
+    min-height: 100vh; /* Essa linha significa que a altura mínima do body será 100% da view port height, ou seja, o site cobrirá 100% da altura da janela onde o estiver aberto, independente do tamanho dela */
+    font-family: var(--fonte1);
+}
+
+/**/
+
+header {
+    background-color: rgb(164, 0, 0);
+    color: white;
+    text-align: center;
+}
+
+header h1 {
+    padding-top: 50px;
+    font-family: var(--fonte5);
+    font-size: 12vw; /* A medida 'vw' significa uma porcentagem da largura da janela, ou seja, nesse caso o tamanho da fonte vai aumentar ou diminuir de acordo coma a largura da janela onde o site está aberto */
+}
+
+header p {
+    padding-bottom: 50px;
+    font-family: var(--fonte4);
+    font-size: 2.5vw;
+}
+
+/**/
+
+main section {
+    padding-top: 10vh;
+    padding-bottom: 10vh;
+    padding-left: 30px;
+    line-height: 2em;
+    font-family: var(--fonte4);
+    font-size: 3.5vw;
+}
+
+main section.normal {
+    background-color: white;
+    color: black;
+}
+
+main section.imagem { /* Seção onde estarão expostas as imagens (parte de fora, mais ampla) */
+    color: white;
+    box-shadow: inset 6px 6px 13px 0px rgba(0, 0, 0, 0.388);
+}
+
+main section#joaninha {
+    background-image: url(../fotos/p1.jpeg);
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+main section#papel {
+    background-image: url(../fotos/p2.jpeg);
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+main section.imagem p { /* Parágrafo do texto em si (parte de dentro) */
+    background-color: rgba(0, 0, 0, 0.518);
+    display: inline-block; /* Transforma a caixa do parágrafo em uma forma adapável ao tamanho dele */
+    padding: 15px;
+    text-shadow: 2px 2px 0px black;
+    border-radius: 10px;
+}
+
+img {
+    width: 80vh;
+    margin: auto;
+    display: block;
+    margin-bottom: 10vh;
+}
+
+main section p.menor {
+    font-size: 0.7em;
+    text-align: justify;
+    margin-right: 5vw;
+}
+
+/**/
+
+footer {
+    background-color: rgb(164, 0, 0);
+    text-align: center;
+    color: white;
+    padding: 10px;
+}
+
+footer p {
+    font-size: 0.9em;
+    font-family: var(--fonte4)
+}

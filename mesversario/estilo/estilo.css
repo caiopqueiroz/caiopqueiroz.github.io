@@ -85,7 +85,7 @@ main section#papel {
 
 main section.imagem p { /* Parágrafo do texto em si (parte de dentro) */
     background-color: rgba(0, 0, 0, 0.518);
-    display: inline-block; /* Transforma a caixa do parágrafo em uma forma adapável ao tamanho dele */
+    display: inline-block; /* Transforma a caixa do parágrafo em uma forma adaptável ao tamanho dele */
     padding: 15px;
     text-shadow: 2px 2px 0px black;
     border-radius: 10px;

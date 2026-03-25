@@ -39,13 +39,13 @@ header {
 header h1 {
     padding-top: 50px;
     font-family: var(--fonte5);
-    font-size: 12vw; /* A medida 'vw' significa uma porcentagem da largura da janela, ou seja, nesse caso o tamanho da fonte vai aumentar ou diminuir de acordo coma a largura da janela onde o site está aberto */
+    font-size: 20vw; /* A medida 'vw' significa uma porcentagem da largura da janela, ou seja, nesse caso o tamanho da fonte vai aumentar ou diminuir de acordo coma a largura da janela onde o site está aberto */
 }
 
 header p {
     padding-bottom: 50px;
     font-family: var(--fonte4);
-    font-size: 2.5vw;
+    font-size: 3vw;
 }
 
 /**/

@@ -54,9 +54,11 @@ main section {
     padding-top: 10vh;
     padding-bottom: 10vh;
     padding-left: 30px;
+    padding-right: 30px;
     line-height: 2em;
     font-family: var(--fonte4);
-    font-size: 3.5vw;
+    font-size: 4vw;
+    text-align: justify;
 }
 
 main section.normal {
@@ -70,14 +72,7 @@ main section.imagem { /* Seção onde estarão expostas as imagens (parte de for
 }
 
 main section#joaninha {
-    background-color: rgb(164, 0, 0);
-    background-position: center center;
-    background-attachment: fixed;
-    background-size: cover;
-}
-
-main section#papel {
-    background-color: rgb(164, 0, 0);
+    background-image: linear-gradient(to top, rgb(85, 1, 1), red);
     background-position: center center;
     background-attachment: fixed;
     background-size: cover;
@@ -96,10 +91,14 @@ img {
     margin: auto;
     display: block;
     margin-bottom: 10vh;
+    border-radius: 10px;
+    border: 5px solid rgb(164, 0, 0);
+    margin-bottom: 0px;
+    margin-top: 10vh;
 }
 
 main section p.menor {
-    font-size: 0.7em;
+    font-size: 2.5vw;
     text-align: justify;
     margin-right: 5vw;
 }

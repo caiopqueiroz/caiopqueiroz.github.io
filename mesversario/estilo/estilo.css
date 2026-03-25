@@ -72,10 +72,7 @@ main section.imagem { /* Seção onde estarão expostas as imagens (parte de for
 }
 
 main section#joaninha {
-    background-image: linear-gradient(to top, rgb(85, 1, 1), red);
-    background-position: center center;
-    background-attachment: fixed;
-    background-size: cover;
+    background-image: linear-gradient(45deg, darkred, red);
 }
 
 main section.imagem p { /* Parágrafo do texto em si (parte de dentro) */

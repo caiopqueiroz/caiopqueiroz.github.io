@@ -1,0 +1,892 @@
+---
+title: "Trabalho Dieta e Treino"
+format: 
+  dashboard:
+    scrolling: true
+    fontsize: 1.3rem
+editor: visual
+---
+
+```{r}
+#| title: setup
+# Carregando pacotes
+library(tidyverse)
+library(gt)
+library(gtExtras)
+
+# Lendo banco de dados
+dados <- read_csv('dados.csv')
+
+# Alterando o nome das variáveis
+colnames(dados) <- c('data_hora', 'exercicios', 'dias_exercicio', 'alimentacao', 'dieta', 'sono', 'bem_estar', 'melhora', 'idade')
+
+# Tratando os dados
+dados <- dados |> 
+  mutate(
+    exercicios = ifelse(dias_exercicio == '0 dias', 'Não', 'Sim'),
+    dias_exercicio = ifelse(dias_exercicio == '0 dias', 0, 
+                             ifelse(dias_exercicio == '1 a 2 dias', 1,
+                                    ifelse(dias_exercicio == '3 a 4 dias', 3,
+                                           ifelse(dias_exercicio == '5 ou mais dias', 5, 'Erro'
+  )))),
+    sono = ifelse(sono == 'Menos de 5 horas', 4, 
+                  ifelse(sono == '5 a 6 horas', 5,
+                         ifelse(sono == '6 a 7 horas', 6,
+                                ifelse(sono == '7 a 8 horas', 7, 'Erro'
+  ))))
+  )
+
+dados$dias_exercicio <- as.numeric(dados$dias_exercicio)
+dados$sono <- as.numeric(dados$sono)
+
+# Adicionando a variável id 
+dados <- dados |>
+  select(- data_hora) |> 
+  mutate(
+    id = seq(0, 53)
+  ) |> 
+  relocate(id)
+```
+
+# Página inicial
+
+<!-- Página que irá explicar as variáveis que utilizamos na pesquisa -->
+
+## Row
+
+**Bem-vindo(a) ao trabalho sobre dieta e treino**
+
+Ao elaborar nossa pesquisa, nós coletamos dados a respeito das seguintes variáveis:
+
+-   Exercício - Se o estudante pratica ou não pratica exercícios físicos
+
+-   Dias de exercício - Quantas vezes por semana o estudante pratica exercícios físicos
+
+-   Alimentação - Autoavaliação da qualidade da alimentação do estudante, em níveis de 0 a 5
+
+-   Dieta - Autoavaliação da dedicação do estudante a um plano alimentar fixo, em níveis de 0 a 5
+
+-   Sono - Quantas horas de sono o estudante dorme por noite
+
+-   Bem-estar - Autoavaliação do bem-estar diário do estudante, em níveis de 0 a 5
+
+-   Sentimento de melhora - Autoavaliação do quanto a associação entre exercícios físicos e alimentação saudável impacta positivamente a qualidade de vida do estudante, em níveis de 0 a 5
+
+-   Idade - Faixa etária do estudante
+
+# Alimentação
+
+## Row {height="500px"}
+
+### Column {width="25%"}
+
+Agrupando todos os estudantes de acordo com a qualidade da alimentação. Para cada grupo, qual será a média de bem-estar?
+
+O gráfico ao lado demonstra que quanto melhor a alimentação do indíviduo, melhor ele julga o seu bem-estar físico e mental.
+
+Logo, uma alimentação balanceada pode influenciar positivamente em como nos sentimos durante o dia-a-dia.
+
+### Column {width="75%"}
+
+```{r}
+dados |> 
+  filter(alimentacao > 0) |> 
+  group_by(alimentacao) |> 
+  summarise(
+    media_bem_estar = mean(bem_estar)
+  ) |> 
+  ggplot(
+    aes(
+      y = as.character(alimentacao),
+      x = media_bem_estar,
+      label = round(media_bem_estar,2),
+      fill = as.character(alimentacao)
+    )
+  ) +
+  scale_fill_manual(
+    values = c(
+      '5' = 'green2',
+      '4' = 'green3',
+      '3' = 'green4',
+      '2' = 'red4',
+      '1' = 'red3'
+    )
+  ) +
+  geom_col() +
+  geom_text(
+    hjust = 1.5,
+    color = 'white',
+    size = 8
+      ) +
+  theme_minimal(
+    base_size = 14
+  ) +
+  theme(
+    legend.position = 'none',
+    plot.title = element_text(size = 18, face = 'bold')
+  ) +
+  labs(
+    title = 'Bem-estar segundo a qualidade da alimentação',
+    subtitle = 'Pessoas que comem bem se sentem melhores',
+    x = 'Média do bem-estar',
+    y = 'Alimentação'
+  ) +
+  scale_y_discrete(
+    labels = c(
+      '5' = 'Muito boa',
+      '4' = 'Boa',
+      '3' = 'Regular',
+      '2' = 'Abaixo da média',
+      '1' = 'Ruim'
+    )
+  )
+```
+
+## Row {height="500px"}
+
+### Column {width="25%"}
+
+Nessa outra visualização, a semelhança entre os dois gráficos também aponta a relação positiva entre uma alimentação saudável e o bem-estar geral.
+
+Repare, por exemplo, que para uma alimentação boa, a quantidade de ocorrências é extremamente parecida com o nível bom de bem-estar.
+
+Um possível motivo para isso seria que a maioria das pessoas que avaliaram sua alimentação dessa forma também avaliaram o bem-estar assim.
+
+### Column {.tabset width="75%"}
+
+```{r}
+#| title: Alimentação
+dados |> 
+  drop_na(alimentacao) |> 
+  ggplot(
+    aes(
+      x = alimentacao
+    )
+  ) +
+  geom_histogram(
+    fill = 'lightblue',
+    binwidth = 0.5
+  ) +
+  labs(
+    title = 'Ocorrências de cada nível de alimentação',
+    x = 'Alimentação',
+    y = 'Quantidade'
+  ) +
+  theme_minimal(
+    base_size  = 14
+  ) +
+  theme(
+    plot.title = element_text(size = 18, face = 'bold')
+  ) +
+  scale_x_continuous(
+    breaks = c(0, 1, 2, 3, 4, 5),
+    labels = c(
+      'Muito ruim',
+      'Ruim',
+      'Abaixo da média',
+      'Regular',
+      'Boa',
+      'Muito boa'
+    )
+  )
+```
+
+```{r}
+#| title: Bem-estar
+dados |>
+  drop_na(bem_estar) |> 
+  ggplot(
+    aes(
+      x = bem_estar
+    )
+  ) +
+  geom_histogram(
+    fill = 'orange',
+    binwidth = 0.5
+  ) +
+  labs(
+    title = 'Ocorrências de cada nível de bem-estar',
+    x = 'Bem-estar',
+    y = 'Quantidade'
+  ) +
+  theme_minimal(
+    base_size  = 14
+  ) +
+  theme(
+    plot.title = element_text(size = 18, face = 'bold')
+  ) +
+  scale_x_continuous(
+    breaks = c(0, 1, 2, 3, 4, 5),
+    labels = c(
+      'Muito ruim',
+      'Ruim',
+      'Abaixo da média',
+      'Regular',
+      'Bom',
+      'Muito bom'
+    )
+  )
+```
+
+## Row {height="500px"}
+
+### Column {width="75%"}
+
+```{r}
+dados |> 
+  filter(dieta != 5) |> 
+  group_by(dieta) |> 
+  summarise(
+    media_bem_estar = mean(bem_estar)
+  ) |> 
+  drop_na(dieta) |> 
+  ggplot(
+    aes(
+      y = as.character(dieta),
+      x = media_bem_estar,
+      label = round(media_bem_estar,2),
+      fill = as.character(dieta)
+    )
+  ) +
+  scale_fill_manual(
+    values = c(
+      '4' = 'green3',
+      '3' = 'green2',
+      '2' = 'green4',
+      '1' = 'red4',
+      '0' = 'red3'
+    )
+  ) +
+  geom_col() +
+  theme_minimal(
+    base_size = 14
+  ) +
+  theme(
+    legend.position = 'none',
+    plot.title = element_text(size = 18, face = 'bold')
+  ) +
+  geom_text(
+    hjust = 1.5,
+    size = 8,
+    color = 'white'
+    ) +
+  labs(
+    title = 'Bem-estar segundo a adesão a uma dieta',
+    subtitle = 'Será que é necesário seguir um plano alimentar para se sentir bem?',
+    x = 'Média do bem-estar',
+    y = 'Dieta'
+  ) +
+  scale_y_discrete(
+    labels = c(
+      '4' = 'Sigo quase sempre',
+      '3' = 'Sigo parcialmente',
+      '2' = 'Sigo pouco',
+      '1' = 'Sigo muito pouco', 
+      '0' = 'Nunca sigo'
+    )
+  )
+```
+
+### Column {width="25%"}
+
+Por outro lado, ao comparar os diferentes os diferentes níveis de adesão à dieta, notamos informações interessantes:
+
+-   Não há ninguém que siga uma dieta totalmente
+
+-   O melhor nível de bem-estar está associado às pessoas que se dedicam parcialmente a um plano alimentar
+
+De modo geral, os números ainda apontam para a importância da dieta no sentimento de bem-estar. Mas, optar por um plano muito rigoroso pode **não ser a melhor opção** no quesito satisfação pessoal.
+
+## Row {height="400px"}
+
+### Column {width="60%"}
+
+Nesse sentido, outra questão importante: pessoas que consideram sua alimentação boa ou muito boa seguem dieta?
+
+| Dieta                         | Quantidade de pessoas |
+|-------------------------------|-----------------------|
+| Sigo quase sempre             | 10                    |
+| Sigo parcialmente ou não sigo | 13                    |
+
+### Column {width="40%"}
+
+23 é a quantidade total de pessoas que classificaram sua alimentação com os níveis mais altos. O fato curioso é que, dentre esses estudantes, a maioria disse não se dedicar tanto a um plano alimentar.
+
+Isso pode significar que a ideia de se prender a um modelo de alimentação único, e possivelmente restritivo, também **não é a única opção** para quem deseja começar a se alimentar melhor.
+
+# Exercícios
+
+## Row
+
+Do total de pessoas que responderam à pesquisa, quase 80% diz praticar exercícios físicos ao menos uma vez por semana.
+
+## Row {height="500px"}
+
+```{r}
+dados |>
+  drop_na(bem_estar) |> 
+  ggplot(
+    aes(
+      x = exercicios,
+      fill = exercicios
+    )
+  ) +
+  scale_fill_manual(
+    values = c(
+      'Sim' = 'orange',
+      'Não' = 'brown'
+    )
+  ) +
+  geom_bar(
+    width = 0.4
+  ) +
+  scale_x_discrete(
+    labels = c(
+      'Sim' = 'Pratico',
+      'Não' = 'Não pratico'
+    )
+  ) +
+  theme_minimal(
+    base_size = 14
+  ) +
+  theme(
+    legend.position = 'none',
+    plot.title = element_text(size = 18, face = 'bold')
+  ) +
+  labs(
+    title = 'Grande maioria dos estudantes têm rotinas ativas!',
+    x = 'Exercícios físicos',
+    y = 'Quantidade'
+  ) +
+  geom_text(
+    stat = "count", 
+    aes(label = after_stat(count)),
+    size = 8,
+    color = 'white',
+    vjust = 1.5
+  )
+  
+```
+
+## Row {height="500px"}
+
+### Column {width="30%"}
+
+Agora, vamos adicionar mais uma variável a essa contagem: a dieta
+
+Note que, quando se trata apenas de atividades físicas, grande parte das pessoas é adepta, mas, combinar isso a um plano alimentar altera bastante os números.
+
+Ainda assim, mais de 50% dos estudantes praticam exercícios e seguem um plano alimentar, em algum nível. E, apenas 9% do total não faz nem um nem outro. 
+
+### Column {width="70%"}
+
+```{r}
+dados |> 
+  drop_na() |> 
+  mutate(
+    treino_dieta = ifelse(
+      exercicios == 'Sim' & dieta != 0, 
+      'Treino e dieta', 
+      ifelse(
+      exercicios == 'Não' & dieta == 0,
+      'Sem treino e sem dieta',
+      'Treino ou dieta'
+    )),
+    pessoas = ifelse(exercicios == 'Sim' | exercicios == 'Não', ' ', 0)
+  ) |> 
+  ggplot(
+    aes(
+      y = pessoas,
+      fill = treino_dieta,
+    )
+  ) +
+  geom_bar(width = 0.2, position = 'fill') +
+  geom_text(
+    aes(
+      label = scales::percent(after_stat(count / tapply(count, y, sum)[y])),
+      group = treino_dieta
+    ), 
+    stat = "count", 
+    position = position_fill(vjust = 0.5),
+    color = 'white',
+    size = 8
+  ) +
+  scale_fill_manual(
+    values = c(
+      'Treino e dieta' = 'green4',
+      'Treino ou dieta' = 'goldenrod',
+      'Sem treino e sem dieta' = 'red4'
+    )
+  ) +
+  labs(
+    title = 'Estilo de vida "disciplinado" ainda é maioria',
+    x = 'Total de pessoas',
+    y = ' ',
+    fill = 'Hábito'
+  ) +
+  theme_minimal(
+    base_size = 14
+  ) +
+  theme(
+    plot.title = element_text(size = 18, face = 'bold'),
+    legend.position = c(0.25, 0.85)
+  )
+```
+
+## Row {height="300px"}
+
+### Column {width="40%"}
+
+Outra questão: Pessoas que praticam exercícios tem melhor bem-estar?
+
+Agrupando as pessoas em dois grupos: estudantes que praticam exercícios e que não praticam. A média de autoavaliação do bem-estar é maior para aqueles com a rotina fisicamente mais ativa.
+
+### Column {width="60%"}
+
+| Pratica exercícios | Media do bem-estar |
+|--------------------|--------------------|
+| Sim                | 3.20               |
+| Não                | 2.83               |
+
+## Row {height="500px"}
+
+### Column {width="70%"}
+
+```{r}
+media_ativo <- dados |> 
+  filter(exercicios == 'Sim' & alimentacao %in% c(4, 5)) |> 
+  mutate(
+    media_bem_estar = mean(bem_estar)
+  ) |> 
+  select(media_bem_estar)
+
+media_sedentario <- dados |> 
+  filter(exercicios == 'Não' & alimentacao %in% c(0, 1, 2, 3)) |> 
+  mutate(
+    media_bem_estar = mean(bem_estar)
+  ) |> 
+  select(media_bem_estar)
+
+dados_comparacao_bem_estar <- data.frame(
+  habito = c('Ativo e alimentação boa', 'Sedentário e alimentação ruim'),
+  media_bem_estar = c(3.58, 2.5)
+)
+
+dados_comparacao_bem_estar |> 
+  ggplot(
+    aes(
+      y = habito,
+      x = media_bem_estar,
+      fill = habito,
+      label = media_bem_estar
+    )
+  ) +
+  scale_fill_manual(
+    values = c('Ativo e alimentação boa' = 'green4', 
+               'Sedentário e alimentação ruim' = 'red4')
+  ) +
+  geom_col(width = 0.6) +
+  geom_text(hjust = 1.5, 
+            color = 'white',
+            size = 8
+            ) +
+  theme_minimal(
+    base_size = 14
+  ) +
+  theme(
+    legend.position = 'none',
+    plot.title = element_text(size = 18, face = 'bold')
+  ) +
+  labs(
+    title = 'Disciplina no dia-a-dia. Vale ou não a pena?',
+    subtitle = 'Comparação entre dois conjuntos de hábitos',
+    x = 'Média do bem-estar',
+    y = 'Hábito',
+    fill = 'Hábito'
+  )
+```
+
+### Column {width="30%"}
+
+Mas, será que praticar exercícios físicos em conjunto com uma alimentação saudável influencia mais em como nos sentimos?
+
+Bom, no gráfico ao lado:
+
+-   **Sedentário e alimentação ruim**: representa todas as pessoas que não treinam e classificaram sua alimentação com os demais níveis.
+
+-   **Ativo e alimentação boa**: representa todas as pessoas que treinam e classificaram sua alimentação como boa ou muito boa.
+
+Nessa visualização, é possível ver com clareza o impacto de uma rotina saudável no sentimento de bem-estar dos estudantes. Logo, por mais que não seja uma regra, os dados mostram que os indivíduos que comem bem e praticam atividades físicas, em conjunto, **se sentem melhores**.
+
+## Row
+
+Mas, agora que estabelecemos isso, vamos a outra dúvida importante. Com a variável 'sentimento de melhora', foi possível verificar que muitas pessoas disseram sentir uma grande melhora em suas rotinas quando associam exercícios físicos e alimentação saudável. Porém, será que esses estudantes realmente treinam e comem bem?
+
+## Row
+
+### Column {width="50%"}
+
+| Pratica exercícios | Quantidade de pessoas |
+|--------------------|-----------------------|
+| Sim                | 36                    |
+| Não                | 8                     |
+
+### Column {width="50%"}
+
+| Dias de exercício por semana | Quantidade de pessoas |
+|------------------------------|-----------------------|
+| 3 ou mais                    | 18                    |
+| 2 ou menos                   | 26                    |
+
+## Row
+
+Um total de 44 indivíduos classificaram o 'sentimento de melhora' com os níveis mais altos. E, de fato, a grande maioria dessas pessoas praticam atividades físicas.
+
+Mas, apenas 18 se dedicam ao menos 3 dias por semana. Logo, por mais que a adesão à rotina de treinos seja alta, grande parte dos estudantes opta por uma rotina curta.
+
+## Row {height="500px"}
+
+### Column {width="60%"}
+
+```{r}
+dados |> 
+  filter(melhora %in% c(4, 5)) |> 
+  count(pessoas = ifelse(alimentacao %in% c(4, 5), 'Alimentação boa', 'Alimentação ruim')) |> 
+  ggplot(
+    aes(
+      y = pessoas,
+      x = n,
+      label = n,
+      fill = pessoas
+    )
+  ) +
+  scale_fill_manual(
+    values = c(
+      'Alimentação boa' = 'green4',
+      'Alimentação ruim' = 'red4'
+    )
+  ) +
+  geom_col(
+    width = 0.6
+  ) +
+  labs(
+    title = 'Pessoas que percebem grande melhora',
+    subtitle = 'Será que realmente comem de forma saudável?',
+    x = 'Quantidade de pessoas',
+    y = '',
+  ) + geom_text(
+    color = 'white',
+    size = 8,
+    hjust = 1.5
+  ) +
+  theme_minimal(
+    base_size = 14
+  ) +
+  theme(
+    legend.position = 'none',
+    plot.title = element_text(size = 18, face = 'bold')
+  ) +
+  scale_y_discrete(
+    labels = c(
+      'Alimentação ruim' = 'Alimentação regular ou inferior',
+      'Alimentação boa' = 'Alimentação boa ou muito boa'
+    )
+  )
+```
+
+### Column {width="40%"}
+
+Agora, quanto a alimentação:
+
+Novamente, aqui foram consideradas apenas as pessoas que classificaram o 'sentimento de melhora' com os níveis mais altos. Dentre elas, mais indivíduos autoavaliaram sua alimentação como ruim.
+
+Então, o que podemos deduzir com base nisso?
+
+Por mais que quase todos reconheçam e admitam os benefícios em conciliar treino e boa alimentação, muitos estudantes, ainda sim, **não seguem esses bons hábitos.**
+
+# Idade
+
+## Row
+
+Agora, nessa página, o foco é buscar entender como a idade das pessoas influencia no restante das variáveis.
+
+Bom, será que os estudantes mais jovens praticam exercícios mais vezes por semana?
+
+## Row {height="500px"}
+
+### Column {width="70%"}
+
+```{r}
+dados |> 
+  drop_na(idade) |> 
+  filter(exercicios == 'Sim') |> 
+  filter(idade != '22 - 25' & idade != '14 - 17') |> 
+  group_by(idade) |> 
+  summarize(
+    media_dias_exercicio = mean(dias_exercicio)
+  ) |> 
+  ggplot(
+    aes(
+      y = idade,
+      x = media_dias_exercicio,
+      label = round(media_dias_exercicio,2),
+      fill = idade
+    )
+  ) +
+  geom_col(
+    width = 0.6
+  ) +
+  geom_text(
+    hjust = 1.5,
+    color = 'white',
+    size = 8
+    ) +
+  theme_minimal(
+    base_size = 14
+  ) +
+  theme(
+    legend.position = 'none',
+    plot.title = element_text(size = 18, face = 'bold')
+  ) +
+  labs(
+    title = 'Dias de exercício por semana de acordo com a idade',
+    x = 'Média de dias de exercício por semana',
+    y = 'Idade'
+  ) +
+  scale_fill_manual(
+    values = c(
+      '26 ou mais.' = '#9C016C',
+      '18 - 21' = '#9C8713',
+      '14 - 17' = '#13989C'
+    )
+  )
+```
+
+### Column {width="30%"}
+
+A resposta para essa questão é pouco conclusiva.
+
+No banco de dados coletado, são poucas as ocorrências de pessoas com a idade de 22 a 25 anos e 14 a 17 anos. Por isso, nessa visualização e nas seguintes, essas faixas etárias foram ocultadas.
+
+O restante das médias são muito similares, com pequena vantagem dos indivíduos com 26 anos ou mais.
+
+Logo, de acordo com o gráfico, **os mais jovens não praticam atividades físicas por mais dias na semana**.
+
+## Row {height="500px"}
+
+### Column {width="40%"}
+
+Já nessa outra visualização, nota-se a proporção entre quem pratica e quem não pratica atividades físicas, ainda de acordo com a idade.
+
+Pratica exercícios: Laranja
+
+Não pratica exercícios: Marrom
+
+-   Todos os estudantes acima de 26 anos praticam exercícios
+
+-   A grande maioria dos estudantes entre 18 e 21 anos também realizam atividades físicas
+
+### Column {width="60%"}
+
+```{r}
+dados |> 
+  drop_na(idade) |> 
+  filter(idade != '22 - 25' & idade != '14 - 17') |> 
+  group_by(idade, exercicios) |> 
+  summarize(
+    pessoas = n()
+  ) |> 
+  ggplot(
+    aes(
+      y = idade,
+      x = pessoas,
+      fill = exercicios,
+    )
+  ) +
+  geom_col(
+    position = 'fill',
+    width = 0.4
+    ) +
+  theme_minimal(
+    base_size = 14
+  ) +
+  theme(
+    legend.position = 'none',
+    plot.title = element_text(size = 18, face = 'bold')
+  ) +
+  labs(
+    title = 'Proporção entre pessoas ativas e sedentárias',
+    subtitle = 'Agrupando os estudantes pela idade',
+    x = 'Total de pessoas',
+    y = 'Idade',
+    fill = 'Pratica exercícios'
+  ) +
+  scale_fill_manual(
+    values = c(
+      'Sim' = 'orange',
+      'Não' = 'brown'
+    )
+  )
+```
+
+## Row
+
+Será que os mais jovens se alimentam melhor?
+
+## Row {height="500px"}
+
+### Column {width="70%"}
+
+```{r}
+dados |> 
+  drop_na(idade) |> 
+  filter(idade != '22 - 25' & idade != '14 - 17') |> 
+  group_by(idade) |> 
+  summarize(
+    media_alimentacao = mean(alimentacao)
+  ) |> 
+  ggplot(
+    aes(
+      y = idade,
+      x = media_alimentacao,
+      label = round(media_alimentacao,2),
+      fill = idade 
+    )
+  ) +
+  scale_fill_manual(
+    values = c(
+      '26 ou mais.' = '#9C016C',
+      '18 - 21' = '#9C8713',
+      '14 - 17' = '#13989C'
+    )
+  ) + 
+  geom_col(
+    width = 0.6
+  ) +
+  geom_text(
+    color = 'white',
+    size = 8,
+    hjust = 1.5
+  ) +
+  theme_minimal(
+    base_size = 14
+  ) +
+  theme(
+    legend.position = 'none',
+    plot.title = element_text(size = 18, face = 'bold')
+  ) +
+  labs(
+    title = 'Qualidade da alimentação de acordo com a idade',
+    x = 'Média da qualidade da alimentação',
+    y = 'Idade'
+  )
+```
+
+### Column {width="30%"}
+
+Novamente, as ocorrências de indivíduos entre 22 e 25 anos e indíviduos entre 14 e 17 anos foram ocultadas.
+
+Através desse gráfico, é possível perceber que a qualidade da alimentação é extremamente semelhante entre os dois grupos restantes.
+
+## Row {height="500px"}
+
+### Column {width="40%"}
+
+Agrupando as pessoas em 2 grupos:
+
+-   Mais jovens: 14 a 21 anos
+
+-   Mais velhos: 22 anos ou mais
+
+Dessa forma, todos os estudantes podem fazer parte da visualização sem que algum grupo tenha pouquíssimas ocorrências.
+
+Tanto no grupo dos mais jovens, como no grupo dos mais velhos, existem mais pessoas com a alimentação regular ou inferior.
+
+Até por isso, as médias exibidas no gráfico são muito próximas de 3 (alimentação regular).
+
+A conclusão final é que, de acordo com esses números, **a idade não influencia tanto na qualidade da alimentação dos estudantes**.
+
+### Column {width="60%"}
+
+#### Row {height='250px'}
+
+**Considerando apenas as pessoas entre 14 e 21 anos:**
+
+| Qualidade da alimentação     | Quantidade de pessoas |
+|------------------------------|-----------------------|
+| Regular ou inferior          | 22                    |
+| Boa ou muito boa             | 16                    |
+
+#### Row {height='250px'}
+
+**Considerando apenas as pessoas com 22 anos ou mais:**
+
+| Qualidade da alimentação     | Quantidade de pessoas |
+|------------------------------|-----------------------|
+| Regular ou inferior          | 8                     |
+| Boa ou muito boa             | 7                     |
+
+# Sono
+
+## Row
+
+Por fim: pessoas que dormem mais tem melhor bem-estar?
+
+Curiosamente, a maior quantidade de sono dormida por noite, 7 a 8 horas, é o grupo com a **pior média de bem-estar**.
+
+A melhor média pertence às pessoas que dormem cerca de 5 a 6 horas por noite. Ainda que pareça estranho, os dados apontam que esse seria o tempo de sono ideal para se sentir o melhor possível durante o dia-a-dia.
+
+## Row {height="500px"}
+
+```{r}
+dados |> 
+  drop_na(sono) |> 
+  group_by(sono) |> 
+  summarize(
+    media_bem_estar = mean(bem_estar)
+  ) |> 
+  ggplot(
+    aes(
+      y = as.character(sono),
+      x = media_bem_estar,
+      label = round(media_bem_estar,2),
+      fill = as.character(sono)
+    )
+  ) +
+  geom_col(
+    width = 0.6
+  ) +
+  scale_fill_manual(
+    values = c(
+      '7' = '#F7FE72',
+      '5' = '#8FF7A7',
+      '4' = '#51BBFE'
+    )
+  ) + 
+  geom_text(
+    color = 'black',
+    size = 8,
+    hjust = 1.5
+  ) +
+  theme_minimal(
+    base_size = 14
+  ) +
+  theme(
+    plot.title = element_text(face = 'bold', size = 18),
+    legend.position = 'none'
+  ) +
+  labs(
+    title = 'Média do bem-estar de acordo com horas de sono',
+    x = 'Média do bem-estar',
+    y = 'Horas de sono por noite'
+  ) +
+  scale_y_discrete(
+    labels = c(
+      '7' = '7 a 8 horas',
+      '5' = '5 a 6 horas',
+      '4' = '4 horas ou menos'
+    )
+  )
+```
+
+

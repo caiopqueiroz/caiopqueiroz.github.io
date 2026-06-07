@@ -8,3 +8,5 @@ Teste de GitHub Pages
 <a href="d012-corrigido/index.html" target="_blank" rel="external">Acesse o site 'Cordel Moderno' clicando aqui</a>
 <br>
 <a href="mesversario/index.html" target="_blank" rel="external">Acesse o site 'Caio e Júlia' clicando aqui</a>
+<br>
+<a href="trabalho_dieta_treino/dashboard.html" target="_blank" rel="external">Acesse o dashboard 'Dieta e Treino' clicando aqui</a>

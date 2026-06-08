@@ -475,4 +475,61 @@ dados |>
     plot.title = element_text(size = 18, face = 'bold'),
     legend.position = c(0.25, 0.85)
   )
+
+
+dados |> 
+  drop_na(idade) |> 
+  filter(exercicios == 'Sim') |> 
+  mutate(
+    idade = ifelse(idade %in% c('22 - 25', '26 ou mais.'), 'Mais velhos', 'Mais novos')
+  ) |> 
+  group_by(idade) |> 
+  summarize(
+    media_dias_exercicio = mean(dias_exercicio)
+  )
+
+
+
+dados |> 
+  drop_na(idade) |> 
+  mutate(
+    idade = ifelse(idade %in% c('22 - 25', '26 ou mais.'), 'Mais velhos', 'Mais novos')
+  ) |> 
+  group_by(idade, alimentacao) |> 
+  summarize(
+    pessoas = n()
+  ) |> 
+  ggplot(
+    aes(
+      y = idade,
+      x = pessoas,
+      fill = as.character(alimentacao),
+    )
+  ) +
+  geom_col(
+    position = 'fill',
+    width = 0.4
+  ) +
+  theme_minimal(
+    base_size = 14
+  ) +
+  theme(
+    plot.title = element_text(size = 18, face = 'bold')
+  ) +
+  labs(
+    title = 'Qualidade da alimentação de acordo com a idade',
+    x = 'Total de pessoas',
+    y = 'Idade',
+    fill = 'Qualidade da alimentação'
+  ) +
+  scale_fill_manual(
+    values = c(
+      '5' = 'green2',
+      '4' = 'green3',
+      '3' = 'green4',
+      '2' = 'red4',
+      '1' = 'red3',
+      '0' = 'red2'
+    )
+  ) 
     

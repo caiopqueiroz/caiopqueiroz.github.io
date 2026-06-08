@@ -376,7 +376,7 @@ Agora, vamos adicionar mais uma variável a essa contagem: a dieta
 
 Note que, quando se trata apenas de atividades físicas, grande parte das pessoas é adepta, mas, combinar isso a um plano alimentar altera bastante os números.
 
-Ainda assim, mais de 50% dos estudantes praticam exercícios e seguem um plano alimentar, em algum nível. E, apenas 9% do total não faz nem um nem outro. 
+Ainda assim, mais de 50% dos estudantes praticam exercícios e seguem um plano alimentar, em algum nível. E, apenas 9% do total não faz nem um nem outro.
 
 ### Column {width="70%"}
 
@@ -606,6 +606,12 @@ Por mais que quase todos reconheçam e admitam os benefícios em conciliar trein
 
 # Idade
 
+<!-- 
+Ideias de alterações na página da idade: 
+- Agrupar os estudantes em mais velhos (22 ou mais) e mais novos (14 a 21) nos dois primeiros gráficos 
+- Usar um gráfico no lugar das 2 tabelas na última pergunta 
+-->
+
 ## Row
 
 Agora, nessa página, o foco é buscar entender como a idade das pessoas influencia no restante das variáveis.
@@ -620,7 +626,9 @@ Bom, será que os estudantes mais jovens praticam exercícios mais vezes por sem
 dados |> 
   drop_na(idade) |> 
   filter(exercicios == 'Sim') |> 
-  filter(idade != '22 - 25' & idade != '14 - 17') |> 
+  mutate(
+    idade = ifelse(idade %in% c('22 - 25', '26 ou mais.'), 'Mais velhos', 'Mais novos')
+  ) |> 
   group_by(idade) |> 
   summarize(
     media_dias_exercicio = mean(dias_exercicio)
@@ -655,16 +663,13 @@ dados |>
   ) +
   scale_fill_manual(
     values = c(
-      '26 ou mais.' = '#9C016C',
-      '18 - 21' = '#9C8713',
-      '14 - 17' = '#13989C'
+      'Mais velhos' = '#9C016C',
+      'Mais novos' = '#13989C'
     )
   )
 ```
 
 ### Column {width="30%"}
-
-A resposta para essa questão é pouco conclusiva.
 
 No banco de dados coletado, são poucas as ocorrências de pessoas com a idade de 22 a 25 anos e 14 a 17 anos. Por isso, nessa visualização e nas seguintes, essas faixas etárias foram ocultadas.
 
@@ -691,7 +696,9 @@ Não pratica exercícios: Marrom
 ```{r}
 dados |> 
   drop_na(idade) |> 
-  filter(idade != '22 - 25' & idade != '14 - 17') |> 
+  mutate(
+    idade = ifelse(idade %in% c('22 - 25', '26 ou mais.'), 'Mais velhos', 'Mais novos')
+  ) |> 
   group_by(idade, exercicios) |> 
   summarize(
     pessoas = n()
@@ -740,7 +747,9 @@ Será que os mais jovens se alimentam melhor?
 ```{r}
 dados |> 
   drop_na(idade) |> 
-  filter(idade != '22 - 25' & idade != '14 - 17') |> 
+  mutate(
+    idade = ifelse(idade %in% c('22 - 25', '26 ou mais.'), 'Mais velhos', 'Mais novos')
+  ) |>  
   group_by(idade) |> 
   summarize(
     media_alimentacao = mean(alimentacao)
@@ -755,9 +764,8 @@ dados |>
   ) +
   scale_fill_manual(
     values = c(
-      '26 ou mais.' = '#9C016C',
-      '18 - 21' = '#9C8713',
-      '14 - 17' = '#13989C'
+      'Mais velhos' = '#9C016C',
+      'Mais novos' = '#13989C'
     )
   ) + 
   geom_col(
@@ -808,23 +816,23 @@ A conclusão final é que, de acordo com esses números, **a idade não influenc
 
 ### Column {width="60%"}
 
-#### Row {height='250px'}
+#### Row {height="250px"}
 
 **Considerando apenas as pessoas entre 14 e 21 anos:**
 
-| Qualidade da alimentação     | Quantidade de pessoas |
-|------------------------------|-----------------------|
-| Regular ou inferior          | 22                    |
-| Boa ou muito boa             | 16                    |
+| Qualidade da alimentação | Quantidade de pessoas |
+|--------------------------|-----------------------|
+| Regular ou inferior      | 22                    |
+| Boa ou muito boa         | 16                    |
 
-#### Row {height='250px'}
+#### Row {height="250px"}
 
 **Considerando apenas as pessoas com 22 anos ou mais:**
 
-| Qualidade da alimentação     | Quantidade de pessoas |
-|------------------------------|-----------------------|
-| Regular ou inferior          | 8                     |
-| Boa ou muito boa             | 7                     |
+| Qualidade da alimentação | Quantidade de pessoas |
+|--------------------------|-----------------------|
+| Regular ou inferior      | 8                     |
+| Boa ou muito boa         | 7                     |
 
 # Sono
 
@@ -888,5 +896,3 @@ dados |>
     )
   )
 ```
-
-

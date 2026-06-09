@@ -530,6 +530,14 @@ dados |>
       '2' = 'red4',
       '1' = 'red3',
       '0' = 'red2'
+    ),
+    labels = c(
+      '5' = 'Muito boa',
+      '4' = 'Boa',
+      '3' = 'Regular',
+      '2' = 'Abaixo da média',
+      '1' = 'Ruim',
+      '0' = 'Muito ruim'
     )
-  ) 
+  )
     

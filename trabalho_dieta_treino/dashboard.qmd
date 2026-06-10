@@ -4,6 +4,9 @@ format:
   dashboard:
     scrolling: true
     fontsize: 1.3rem
+    theme: 
+      light: lux
+      dark: darkly
 editor: visual
 ---
 
@@ -744,9 +747,9 @@ dados |>
 
 Será que os mais jovens se alimentam melhor?
 
-## Row {height="500px"}
+Através do gráfico a seguir, é possível perceber que a qualidade da alimentação é extremamente semelhante entre os dois grupos, mas, novamente com pequena superioridade dos mais jovens. 
 
-### Column {width="70%"}
+## Row {height="500px"}
 
 ```{r}
 dados |> 
@@ -794,31 +797,11 @@ dados |>
   )
 ```
 
-### Column {width="30%"}
+## Row
 
-Novamente, as ocorrências de indivíduos entre 22 e 25 anos e indíviduos entre 14 e 17 anos foram ocultadas.
+Outro tipo de visualização:
 
-Através desse gráfico, é possível perceber que a qualidade da alimentação é extremamente semelhante entre os dois grupos restantes.
-
-## Row {height="500px"}
-
-### Column {width="25%"}
-
-Agrupando as pessoas em 2 grupos:
-
--   Mais jovens: 14 a 21 anos
-
--   Mais velhos: 22 anos ou mais
-
-Dessa forma, todos os estudantes podem fazer parte da visualização sem que algum grupo tenha pouquíssimas ocorrências.
-
-Tanto no grupo dos mais jovens, como no grupo dos mais velhos, existem mais pessoas com a alimentação regular ou inferior.
-
-Até por isso, as médias exibidas no gráfico são muito próximas de 3 (alimentação regular).
-
-A conclusão final é que, de acordo com esses números, **a idade não influencia tanto na qualidade da alimentação dos estudantes**.
-
-### Column {width="75%"}
+## Row {height='500px'}
 
 ```{r}
 dados |> 
@@ -839,7 +822,7 @@ dados |>
   ) +
   geom_col(
     position = 'fill',
-    width = 0.4
+    width = 0.3
   ) +
   theme_minimal(
     base_size = 14
@@ -851,7 +834,7 @@ dados |>
     title = 'Qualidade da alimentação de acordo com a idade',
     x = 'Total de pessoas',
     y = 'Idade',
-    fill = 'Qualidade da alimentação'
+    fill = 'Alimentação'
   ) +
   scale_fill_manual(
     values = c(
@@ -873,23 +856,15 @@ dados |>
   )
 ```
 
-## Row {height="250px"}
+## Row
 
-**Considerando apenas as pessoas entre 14 e 21 anos:**
+Novamente um gráfico de proporção. Nesse caso, quanto mais a barra estiver preenchida com os tons de verde, melhor será a alimentação do grupo.
 
-| Qualidade da alimentação | Quantidade de pessoas |
-|--------------------------|-----------------------|
-| Regular ou inferior      | 22                    |
-| Boa ou muito boa         | 16                    |
+De modo geral, os níveis mais altos para alimentação estão mais presentes no grupo das pessoas mais jovens, até por isso a sua média vista no gráfico anterior é a mais alta.
 
-## Row {height="250px"}
+Nesse grupo, mais de 75% dos estudantes tem a alimentação regular ou superior, enquanto entre os mais velhos esse número não é alcançado.
 
-**Considerando apenas as pessoas com 22 anos ou mais:**
-
-| Qualidade da alimentação | Quantidade de pessoas |
-|--------------------------|-----------------------|
-| Regular ou inferior      | 8                     |
-| Boa ou muito boa         | 7                     |
+A conclusão final é: assim como em relação às atividades físicas, também na alimentação o grupo de 14 a 21 anos tem ligeira vantagem sobre os demais estudantes.
 
 # Sono
 

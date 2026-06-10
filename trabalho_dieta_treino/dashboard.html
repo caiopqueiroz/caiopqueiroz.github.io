@@ -36,9 +36,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="dashboard_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="dashboard_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="dashboard_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="dashboard_files/libs/bootstrap/bootstrap-e2538d5ef706771a9c1c3968248dcb5f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="dashboard_files/libs/bootstrap/bootstrap-dark-e2538d5ef706771a9c1c3968248dcb5f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
-<link href="dashboard_files/libs/bootstrap/bootstrap-e2538d5ef706771a9c1c3968248dcb5f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="dashboard_files/libs/bootstrap/bootstrap-4f0a6ca5c3842b78c79ab93f056b7e2d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="dashboard_files/libs/bootstrap/bootstrap-dark-5441143c6e23f36e44590d01dd1ec3c2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="dashboard_files/libs/bootstrap/bootstrap-4f0a6ca5c3842b78c79ab93f056b7e2d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="dashboard_files/libs/quarto-dashboard/quarto-dashboard.js"></script>
 <script src="dashboard_files/libs/quarto-dashboard/stickythead.js"></script>
 
@@ -51,7 +51,169 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="quarto-dashboard fullcontent quarto-light">
+<body class="quarto-dashboard fullcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
 
 <header id="quarto-dashboard-header">
 <nav class="navbar navbar-expand-md slim" data-bs-theme="dark">
@@ -70,10 +232,11 @@ ul.task-list li input[type="checkbox"] {
         
       </div>
     </div>
-<div id="dashboard-collapse" class="navbar-collapse collapse"><ul class="navbar-nav navbar-nav-scroll me-auto" role="tablist"><li class="nav-item" role="presentation"><a id="tab-página-inicial" class="nav-link active" data-bs-toggle="tab" role="tab" data-bs-target="#página-inicial" data-scrolling="true" href="#página-inicial" aria-controls="página-inicial" aria-selected="true"><span class="nav-link-text">Página inicial</span></a></li><li class="nav-item" role="presentation"><a id="tab-alimentação" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#alimentação" data-scrolling="true" href="#alimentação" aria-controls="alimentação" aria-selected="false"><span class="nav-link-text">Alimentação</span></a></li><li class="nav-item" role="presentation"><a id="tab-exercícios" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#exercícios" data-scrolling="true" href="#exercícios" aria-controls="exercícios" aria-selected="false"><span class="nav-link-text">Exercícios</span></a></li><li class="nav-item" role="presentation"><a id="tab-idade" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#idade" data-scrolling="true" href="#idade" aria-controls="idade" aria-selected="false"><span class="nav-link-text">Idade</span></a></li><li class="nav-item" role="presentation"><a id="tab-sono" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#sono" data-scrolling="true" href="#sono" aria-controls="sono" aria-selected="false"><span class="nav-link-text">Sono</span></a></li></ul></div></div>
+<a class="quarto-color-scheme-toggle" href="" onclick="window.quartoToggleColorScheme(); return false;"><i class="bi"></i></a><div id="dashboard-collapse" class="navbar-collapse collapse"><ul class="navbar-nav navbar-nav-scroll me-auto" role="tablist"><li class="nav-item" role="presentation"><a id="tab-página-inicial" class="nav-link active" data-bs-toggle="tab" role="tab" data-bs-target="#página-inicial" data-scrolling="true" href="#página-inicial" aria-controls="página-inicial" aria-selected="true"><span class="nav-link-text">Página inicial</span></a></li><li class="nav-item" role="presentation"><a id="tab-alimentação" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#alimentação" data-scrolling="true" href="#alimentação" aria-controls="alimentação" aria-selected="false"><span class="nav-link-text">Alimentação</span></a></li><li class="nav-item" role="presentation"><a id="tab-exercícios" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#exercícios" data-scrolling="true" href="#exercícios" aria-controls="exercícios" aria-selected="false"><span class="nav-link-text">Exercícios</span></a></li><li class="nav-item" role="presentation"><a id="tab-idade" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#idade" data-scrolling="true" href="#idade" aria-controls="idade" aria-selected="false"><span class="nav-link-text">Idade</span></a></li><li class="nav-item" role="presentation"><a id="tab-sono" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#sono" data-scrolling="true" href="#sono" aria-controls="sono" aria-selected="false"><span class="nav-link-text">Sono</span></a></li></ul></div></div>
 </nav>
 </header>
 <div class="page-layout-custom quarto-dashboard-content bslib-gap-spacing html-fill-container dashboard-scrolling quarto-dashboard-pages">  
+
 
 <div class="bslib-grid-item html-fill-item tab-content bslib-grid" data-layout="flow" style="display: grid; grid-template-rows: minmax(3em, 1fr); grid-auto-columns: minmax(0, 1fr);">
 <div id="página-inicial" class="dashboard-page tab-pane show active html-fill-item html-fill-container" data-orientation="rows" aria-labelledby="tab-página-inicial">
@@ -512,7 +675,7 @@ grid-auto-rows: minmax(0, 1fr);">
 </div>
 </div>
 <div id="idade" class="dashboard-page tab-pane grid-skip html-fill-item html-fill-container" data-orientation="rows" aria-labelledby="tab-idade">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, max-content) 500px 500px minmax(3em, max-content) 500px 500px 250px 250px; grid-auto-columns: minmax(0, 1fr);">
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, max-content) 500px 500px minmax(3em, max-content) 500px minmax(3em, max-content) 500px minmax(3em, max-content); grid-auto-columns: minmax(0, 1fr);">
 <!-- 
 Ideias de alterações na página da idade: 
 - Agrupar os estudantes em mais velhos (22 ou mais) e mais novos (14 a 21) nos dois primeiros gráficos 
@@ -550,7 +713,7 @@ grid-auto-rows: minmax(0, 1fr);">
 </div><div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, max-content); grid-auto-columns: minmax(0, 1fr);">
 <div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-body html-fill-item html-fill-container">
-<p>No banco de dados coletado, são poucas as ocorrências de pessoas com a idade de 22 a 25 anos e 14 a 17 anos. Por isso, nessa visualização e nas seguintes, agrupamos os estudantes em 2 faixas etárias:</p>
+<p>No banco de dados coletado, são poucas as ocorrências de pessoas com a idade de 22 a 25 anos e 14 a 17 anos. Por isso, nessa visualização e nas seguintes, agrupamos os estudantes em duas faixas etárias:</p>
 <ul>
 <li><p>22 anos ou mais</p></li>
 <li><p>14 a 21 anos</p></li>
@@ -574,8 +737,8 @@ grid-auto-rows: minmax(0, 1fr);">
 <p>Aqui, nota-se a proporção entre quem pratica e quem não pratica atividades físicas, ainda de acordo com a idade.</p>
 <p>Pratica exercícios: Laranja</p>
 <p>Não pratica exercícios: Marrom</p>
-<p>As porcentagens entre mais velhos e mais jovens é muito similar, com pequena vantagem para aqueles entre 14 e 21 anos.</p>
-<p>Logo, pelo resultado de ambos os gráficos, pode se dizer que os estudantes mais jovens são mais adeptos à prática de atividades físicas.</p>
+<p>As porcentagens entre mais velhos e mais jovens é muito similar, com pequena vantagem para aqueles entre 14 e 21 anos, que ultrapassam 75%.</p>
+<p>Logo, pelos resultados de ambos os gráficos, pode se dizer que os estudantes mais jovens são mais adeptos à prática de atividades físicas.</p>
 </div>
 <bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
     <template>Expand</template>
@@ -603,6 +766,7 @@ grid-auto-rows: minmax(0, 1fr);">
 <div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-body html-fill-item html-fill-container">
 <p>Será que os mais jovens se alimentam melhor?</p>
+<p>Através do gráfico a seguir, é possível perceber que a qualidade da alimentação é extremamente semelhante entre os dois grupos, mas, novamente com pequena superioridade dos mais jovens.</p>
 </div>
 <bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
     <template>Expand</template>
@@ -611,9 +775,8 @@ grid-auto-rows: minmax(0, 1fr);">
     </span>
 </bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
 </div>
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 70fr) minmax(3em, 30fr);
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, 1fr); grid-auto-columns: minmax(0, 1fr);">
 <div class="card cell html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-body html-fill-item html-fill-container">
 <div class="cell-output-display html-fill-item html-fill-container">
@@ -626,34 +789,12 @@ grid-auto-rows: minmax(0, 1fr);">
         <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
     </span>
 </bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
-</div><div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, max-content); grid-auto-columns: minmax(0, 1fr);">
-<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
-<div class="card-body html-fill-item html-fill-container">
-<p>Novamente, as ocorrências de indivíduos entre 22 e 25 anos e indíviduos entre 14 e 17 anos foram ocultadas.</p>
-<p>Através desse gráfico, é possível perceber que a qualidade da alimentação é extremamente semelhante entre os dois grupos restantes.</p>
 </div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
-    <template>Expand</template>
-    <span class="bslib-full-screen-enter badge rounded-pill">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
-    </span>
-</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
-</div>
-</div>
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 25fr) minmax(3em, 75fr);
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, max-content); grid-auto-columns: minmax(0, 1fr);">
 <div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-body html-fill-item html-fill-container">
-<p>Agrupando as pessoas em 2 grupos:</p>
-<ul>
-<li><p>Mais jovens: 14 a 21 anos</p></li>
-<li><p>Mais velhos: 22 anos ou mais</p></li>
-</ul>
-<p>Dessa forma, todos os estudantes podem fazer parte da visualização sem que algum grupo tenha pouquíssimas ocorrências.</p>
-<p>Tanto no grupo dos mais jovens, como no grupo dos mais velhos, existem mais pessoas com a alimentação regular ou inferior.</p>
-<p>Até por isso, as médias exibidas no gráfico são muito próximas de 3 (alimentação regular).</p>
-<p>A conclusão final é que, de acordo com esses números, <strong>a idade não influencia tanto na qualidade da alimentação dos estudantes</strong>.</p>
+<p>Outro tipo de visualização:</p>
 </div>
 <bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
     <template>Expand</template>
@@ -661,7 +802,9 @@ grid-auto-rows: minmax(0, 1fr);">
         <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
     </span>
 </bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
-</div><div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, 1fr); grid-auto-columns: minmax(0, 1fr);">
+</div>
+<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
+grid-auto-rows: minmax(0, 1fr);">
 <div class="card cell html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-body html-fill-item html-fill-container">
 <div class="cell-output-display html-fill-item html-fill-container">
@@ -675,61 +818,14 @@ grid-auto-rows: minmax(0, 1fr);">
     </span>
 </bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
 </div>
-</div>
 <div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
 <div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-body html-fill-item html-fill-container">
-<strong>Considerando apenas as pessoas entre 14 e 21 anos:</strong>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Qualidade da alimentação</th>
-<th>Quantidade de pessoas</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Regular ou inferior</td>
-<td>22</td>
-</tr>
-<tr class="even">
-<td>Boa ou muito boa</td>
-<td>16</td>
-</tr>
-</tbody>
-</table>
-</div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
-    <template>Expand</template>
-    <span class="bslib-full-screen-enter badge rounded-pill">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
-    </span>
-</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
-</div>
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
-grid-auto-rows: minmax(0, 1fr);">
-<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
-<div class="card-body html-fill-item html-fill-container">
-<strong>Considerando apenas as pessoas com 22 anos ou mais:</strong>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Qualidade da alimentação</th>
-<th>Quantidade de pessoas</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Regular ou inferior</td>
-<td>8</td>
-</tr>
-<tr class="even">
-<td>Boa ou muito boa</td>
-<td>7</td>
-</tr>
-</tbody>
-</table>
+<p>Novamente um gráfico de proporção. Nesse caso, quanto mais a barra estiver preenchida com os tons de verde, melhor será a alimentação do grupo.</p>
+<p>De modo geral, os níveis mais altos para alimentação estão mais presentes no grupo das pessoas mais jovens, até por isso a sua média vista no gráfico anterior é a mais alta.</p>
+<p>Nesse grupo, mais de 75% dos estudantes tem a alimentação regular ou superior, enquanto entre os mais velhos esse número não é alcançado.</p>
+<p>A conclusão final é: assim como em relação às atividades físicas, também na alimentação o grupo de 14 a 21 anos tem ligeira vantagem sobre os demais estudantes.</p>
 </div>
 <bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
     <template>Expand</template>
@@ -781,6 +877,19 @@ grid-auto-rows: minmax(0, 1fr);">
 
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
     const anchorJS = new window.AnchorJS();
     anchorJS.options = {
